@@ -17,6 +17,14 @@ while true; do
     fi
 done
 
+
+read -s -p "Password:" password
+
+export EMAIL="$email"
+export PASSWORD="$password"
+
+echo "$PASSWORD" | sudo -S chmod +x ~/.config/build.sh ~/.config/setup_ssh_git.sh ~/.config/setup_vscode.sh
+
 # Create required directories
 mkdir -p ~/Screenshots ~/College ~/Development ~/dotfiles
 
@@ -63,16 +71,16 @@ mv ~/.config/gitignore_global ~/.gitignore_global
 cp -r ~/.config ~/dotfiles
 
 # Install Rosetta 2 for ARM Macs
-sudo softwareupdate --install-rosetta --agree-to-license
+echo "$PASSWORD" | sudo -S softwareupdate --install-rosetta --agree-to-license
 
 # Install Xcode Command Line Tools
-xcode-select --install
+echo "$PASSWORD" | sudo -S xcode-select --install
 
 # Install Nix package manager
 curl -L https://nixos.org/nix/install | sh
-
-echo -e "\n\n\nClose this terminal\n\n\n"
-echo -e "\n\n\nThen open a new terminal window and run:\n\n\nbuild-flake"
+echo -e "\nAfter X-Code CLI finishing installing\n"
+echo -e "Close this terminal\n"
+echo -e "\nOpen a new terminal window and run:\n\n~/.config/build.sh"
 
 rm ~/.config/LICENSE ~/.config/README.md  ~/.config/init.sh
 exit 0
