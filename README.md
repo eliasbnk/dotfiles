@@ -5,7 +5,7 @@ mkdir -p ~/.config && curl -L https://github.com/eliasbnk/dotfiles/archive/refs/
 
 run init script:
 ```bash
-sudo chmod +x ~/.config/init.sh && ~/.config/init.sh
+chmod +x ~/.config/init.sh && ~/.config/init.sh
 ```
 
 run build script:
