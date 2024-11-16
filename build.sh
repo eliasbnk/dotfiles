@@ -7,8 +7,6 @@ nvm install node
 nvm use node
 unset EMAIL
 unset PASSWORD
-echo 'export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"' >> ~/.zprofile
-source ~/.zprofile
 echo "Setup complete!"
 echo "Uncomment out the first 15 lines in ~/.zshrc"
 echo "And then run: source ~/.zshrc"
