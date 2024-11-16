@@ -1,0 +1,15 @@
+/Applications/1Password.app
+/Applications/LibreWolf.app
+'/Applications/Spark Desktop.app'
+/Applications/Discord.app
+/Applications/Viber.app
+/Applications/Slack.app
+/Applications/Spotify.app
+'/Applications/Visual Studio Code.app'
+'/Applications/PyCharm CE.app'
+/Applications/CLion.app
+'/Applications/IntelliJ IDEA CE.app'
+/Applications/Obsidian.app
+/Applications/WezTerm.app
+'/System/Applications/Utilities/Activity Monitor.app'
+'/System/Applications/System Settings.app'
