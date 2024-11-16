@@ -8,7 +8,7 @@ run init script:
 chmod +x ~/.config/init.sh && ~/.config/init.sh
 ```
 
-run build script:
+run build script ( in new terminal window, after init script finishes ):
 ```bash
 ~/.config/build.sh
 ```
