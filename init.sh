@@ -73,3 +73,6 @@ curl -L https://nixos.org/nix/install | sh
 
 echo -e "\n\n\nClose this terminal\n\n\n"
 echo -e "\n\n\nThen open a new terminal window and run:\n\n\nbuild-flake"
+
+rm ~/.config/LICENSE ~/.config/README.md  ~/.config/init.sh
+exit 0
