@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Prompt user for inputs
-read -p "Enter the device name (e.g., macbook-pro) for Nix Flake: " flake_device
+read -p "\nEnter the device name (e.g., macbook-pro) for Nix Flake: " flake_device
 export flake_device
 
-read -p "Enter your full name used for GitHub: " fullname
-read -p "Enter the email address associated with your GitHub: " email
+read -p "\nEnter your full name used for GitHub: " fullname
+read -p "\nEnter the email address associated with your GitHub: " email
 
 # Loop until a valid branch name is entered (either "main" or "master")
 while true; do
-    read -p "Enter your preferred default branch (main/master): " branch
+    read -p "\nEnter your preferred default branch (main/master): " branch
     if [[ "$branch" == "main" || "$branch" == "master" ]]; then
         break  # Exit loop if input is valid
     else
@@ -18,7 +18,7 @@ while true; do
 done
 
 
-read -s -p "Password:" password
+read -s -p "\nPassword:" password
 
 export EMAIL="$email"
 export PASSWORD="$password"
@@ -76,6 +76,7 @@ echo "$PASSWORD" | sudo -S softwareupdate --install-rosetta --agree-to-license
 # Install Xcode Command Line Tools
 echo "$PASSWORD" | sudo -S xcode-select --install
 
+cd ~/.config/nix
 # Install Nix package manager
 curl -L https://nixos.org/nix/install | sh
 echo -e "\nAfter X-Code CLI finishing installing\n"
