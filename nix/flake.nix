@@ -19,6 +19,8 @@
 
     brewFormulae = builtins.splitString "\n" (builtins.readFile ./brew_formulae.txt);
 
+    dockApps = builtins.splitString "\n" (builtins.readFile ./dock_apps.txt);
+
     configuration = { pkgs, ... }: {
       
       # READ: https://mynixos.com/nix-darwin/option/environment.shellAliases
@@ -85,23 +87,7 @@
         dock.orientation = "left";
         dock.show-recents = false;
         dock.showhidden = true;
-        dock.persistent-apps = [
-          "/Applications/1Password.app"
-          "/Applications/LibreWolf.app"
-          "/Applications/Spark Desktop.app"
-          "/Applications/Discord.app"
-          "/Applications/Viber.app"
-          "/Applications/Slack.app"
-          "/Applications/Spotify.app"
-          "/Applications/Visual Studio Code.app"
-          "/Applications/PyCharm CE.app"
-          "/Applications/CLion.app"
-          "/Applications/IntelliJ IDEA CE.app"
-          "/Applications/Obsidian.app"
-          "/Applications/WezTerm.app"
-          "/System/Applications/Utilities/Activity Monitor.app"
-          "/System/Applications/System Settings.app"
-        ];
+        dock.persistent-apps = dockApps;
       };
 
       # --- DONT TOUCH ---
@@ -111,7 +97,7 @@
       system.stateVersion = 5;
       # ------------------
 
-      # IF NOT ARM, CHANGE aarch64
+      # IF NOT ARM/(APPLE SILICONE CHIP), CHANGE aarch64
       nixpkgs.hostPlatform = "aarch64-darwin";
     };
   in
