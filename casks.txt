@@ -3,7 +3,6 @@ viber
 1password
 aldente
 forklift
-redquits
 quit-all
 devutils
 maccy
