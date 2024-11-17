@@ -2,10 +2,6 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 export HOMEBREW_CASK_OPTS="--no-quarantine"
 
-source /opt/homebrew/opt/spaceship/spaceship.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 ZSH_THEME="spaceship"
 plugins=(zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete)
@@ -88,3 +84,8 @@ alias app="echo -e '\033[1;32m React App Name?' && read name && cd ~/Developer/r
 alias gra="echo -e '\033[1;32m Repository Link?' && read link && git remote add origin $link"
 alias gfp="echo -e '\033[1;32m To which Repository-Branch do you want to push?' && read branch && git fetch origin $branch && git push -u origin $branch"
 alias gcm="echo -e '\033[1;32m What is your commit message (what have you done, changed, or need to do)?' && read message && git commit -m '$message'"
+
+source /opt/homebrew/opt/spaceship/spaceship.zsh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
