@@ -26,6 +26,80 @@ install_brew_packages() {
   xargs brew install --no-quarantine --cask <  $HOME.config/casks.txt
 }
 
+apply_zshrc(){
+if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zprofile; then
+      echo "Updating ~/.zprofile to include Homebrew shell environment."
+      cat <<EOF >>~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+export HOMEBREW_CASK_OPTS="--no-quarantine"
+export NVM_DIR="\$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+EOF
+fi
+source ~/.zprofile
+
+if [ -f ~/.zshrc ]; then
+    cp ~/.zshrc ~/.zshrc_backup_$(date +'%Y%m%d%H%M%S')
+fi
+mv ~/.config/zshrc ~/.zshrc
+source  ~/.zshrc
+}
+
+setup_ssh_git(){
+if [ -f ~/.gitconfig ]; then
+    cp ~/.gitconfig ~/.gitconfig_$(date +'%Y%m%d%H%M%S')
+fi
+read -p "\nEnter your full name used for GitHub: " fullname
+read -p "\nEnter the email address associated with your GitHub: " email
+
+# Loop until a valid branch name is entered (either "main" or "master")
+while true; do
+    read -p "\nEnter your preferred default branch (main/master): " branch
+    if [[ "$branch" == "main" || "$branch" == "master" ]]; then
+        break  # Exit loop if input is valid
+    else
+        echo "Invalid input. Please enter 'main' or 'master'."
+    fi
+done
+
+
+export EMAIL="$email"
+
+
+cat <<EOF >~/.gitconfig
+[user]
+	name = ${fullname}
+	email = ${email}
+[init]
+	defaultBranch = ${branch}
+[fetch]
+	prune = true
+
+[push]
+	default = simple
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	ui = true
+
+[core]
+	excludesfile = ~/.gitignore_global
+EOF
+chmod +x ~/.config/setup_ssh_git.sh
+~/.config/setup_ssh_git.sh
+unset EMAIL
+unset PASSWORD
+}
+
+setup_vscode(){
+  chmod +x ~/.config/setup_vscode.sh
+  ~/.config/setup_vscode.sh
+}
+
 apply_gitignore(){
 if [ -f $HOME.gitignore_global ]; then
     cp $HOME.gitignore_global $HOME.gitignore_global_$(date +'%Y%m%d%H%M%S')
@@ -125,8 +199,7 @@ set_system_preferences() {
 
 
 self_destruct(){
-    chmod +x $HOME.config/build.sh
-    rm $HOME.config/init.sh $HOME.config/README.md $HOME.config/LICENSE
+    rm $HOME.config/README.md $HOME.config/LICENSE $HOME.config/setup_ssh_git.sh $HOME.config/setup_vscode.sh $HOME.config/dock_apps.txt $HOME.config/casks.txt $HOME.config/formulaes.txt $HOME.config/init.sh
     exit 0
 }
 
@@ -137,4 +210,6 @@ apply_zshrc
 apply_gitignore
 suppress_login_message
 set_system_preferences
+setup_ssh_git
+setup_vscode
 self_destruct
