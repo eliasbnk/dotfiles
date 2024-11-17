@@ -1,0 +1,70 @@
+{
+    "workbench.colorTheme": "Monokai",
+    "telemetry.telemetryLevel": "off",
+    "workbench.startupEditor": "none",
+    "workbench.settings.applyToAllProfiles": [
+        {
+            "[json]": {
+                "editor.quickSuggestions": {
+                    "strings": true
+                },
+                "editor.suggest.insertMode": "replace"
+            }
+        }
+    ],
+    "window.zoomLevel": 0,
+    "editor.formatOnType": true,
+    "editor.fontSize": 14,
+    "editor.fontWeight": "normal",
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "name": "comment",
+                "scope": ["comment"],
+                "settings": {"fontStyle": "italic"}
+            },
+            {
+                "name": "Keyword Storage",
+                "scope": ["keyword", "keyword.control", "storage"],
+                "settings": {"fontStyle": "italic"}
+            },
+            {
+                "name": "Entity",
+                "scope": ["entity.name.method", "entity.name.type.class", "entity.other.attribute-name"],
+                "settings": {"fontStyle": "italic"}
+            },
+            {
+                "name": "Variable",
+                "scope": ["variable.language"],
+                "settings": {"fontStyle": "italic"}
+            }
+        ]
+    },
+    "editor.guides.bracketPairs": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "security.workspace.trust.banner": "never",
+    "terminal.integrated.env.osx": {
+        "CW_NEW_SESSION": "1"
+    },
+    "files.autoSave": "afterDelay",
+    "editor.formatOnSave": true,
+    "editor.linkedEditing": true,
+    "editor.tabCompletion": "on",
+    "editor.unicodeHighlight.nonBasicASCII": true,
+    "editor.formatOnPaste": true,
+    "diffEditor.codeLens": true,
+    "editor.minimap.enabled": false,
+    "files.trimFinalNewlines": true,
+    "workbench.editor.closeOnFileDelete": true,
+    "workbench.editor.preferHistoryBasedLanguageDetection": true,
+    "files.insertFinalNewline": false,
+    "files.trimTrailingWhitespace": true,
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true,
+    "git.autofetch": true,
+    "[javascript]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    }
+}
