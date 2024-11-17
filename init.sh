@@ -1,87 +1,59 @@
 #!/bin/bash
 
-# Prompt user for inputs
-read -p "\nEnter the device name (e.g., macbook-pro) for Nix Flake: " flake_device
-export flake_device
+install_rosetta() {
+  echo "Installing Rosetta 2..."
+  sudo softwareupdate --install-rosetta --agree-to-license
+}
 
-read -p "\nEnter your full name used for GitHub: " fullname
-read -p "\nEnter the email address associated with your GitHub: " email
+install_homebrew() {
+  echo "Checking for Homebrew..."
+  if ! command -v brew &>/dev/null; then
+    echo "Homebrew is not installed. Installing Homebrew..."
 
-# Loop until a valid branch name is entered (either "main" or "master")
-while true; do
-    read -p "\nEnter your preferred default branch (main/master): " branch
-    if [[ "$branch" == "main" || "$branch" == "master" ]]; then
-        break  # Exit loop if input is valid
-    else
-        echo "Invalid input. Please enter 'main' or 'master'."
-    fi
-done
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  else
+    echo "Homebrew is already installed."
+  fi
+}
 
+install_nix() {
+  echo "Installing Nix package manager..."
+  if ! command -v nix &>/dev/null; then
+    curl -L https://nixos.org/nix/install | sh
+  else
+    echo "Nix is already installed."
+  fi
+}
 
-read -s -p "\nPassword:" password
+clone_dotfiles(){
+    mkdir -p ~/.config && curl -L https://github.com/eliasbnk/dotfiles/archive/refs/heads/main.zip | bsdtar -xvf- -C ~/.config --strip-components=1
+}
 
-export EMAIL="$email"
-export PASSWORD="$password"
-
-echo "$PASSWORD" | sudo -S chmod +x ~/.config/build.sh ~/.config/setup_ssh_git.sh ~/.config/setup_vscode.sh
-
-# Create required directories
-mkdir -p ~/Screenshots ~/College ~/Development ~/dotfiles
-
-# Create .hushlogin to suppress login messages
-touch ~/.hushlogin
-
-# Backup the existing .gitconfig if it exists
-if [ -f ~/.gitconfig ]; then
-    cp ~/.gitconfig ~/.gitconfig_backup_$(date +'%Y%m%d%H%M%S')
+apply_gitignore(){
+if [ -f ~/.gitignore_global ]; then
+    cp ~/.gitignore_global ~/.gitignore_global_$(date +'%Y%m%d%H%M%S')
 fi
-
-# Create .gitconfig
-cat <<EOF >~/.gitconfig
-[user]
-	name = ${fullname}
-	email = ${email}
-[init]
-	defaultBranch = ${branch}
-[fetch]
-	prune = true
-
-[push]
-	default = simple
-
-[color]
-	diff = auto
-	status = auto
-	branch = auto
-	ui = true
-
-[core]
-	excludesfile = ~/.gitignore_global
-EOF
-
-# Backup the existing .zshrc if it exists
-if [ -f ~/.zshrc ]; then
-    cp ~/.zshrc ~/.zshrc_backup_$(date +'%Y%m%d%H%M%S')
-fi
-
-mv ~/.config/zshrc ~/.zshrc
 mv ~/.config/gitignore_global ~/.gitignore_global
+}
 
-# Backup existing config files
-cp -r ~/.config ~/dotfiles
+suppress_login_message(){
+if [ ! -f ~/.hushlogin ]; then
+    touch ~/.hushlogin
+fi
+}
 
-# Install Rosetta 2 for ARM Macs
-echo "$PASSWORD" | sudo -S softwareupdate --install-rosetta --agree-to-license
+self_destruct(){
+    chmod +x ~/.config/build.sh
+    rm ~/.config/init.sh
+    exit 0
+}
 
-# Install Xcode Command Line Tools
-echo "$PASSWORD" | sudo -S xcode-select --install
-
-cd ~/.config/nix
-# Install Nix package manager
-curl -L https://nixos.org/nix/install | sh
-echo -e "\nAfter X-Code CLI finishing installing\n"
-echo -e "Close this terminal\n"
-echo -e "\nOpen a new terminal window and run:\n\n~/.config/build.sh"
-
-rm ~/.config/LICENSE ~/.config/README.md  ~/.config/init.sh
-exit 0
+install_rosetta
+install_homebrew
+clone_dotfiles
+apply_zshrc
+apply_gitignore
+suppress_login_message
+install_nix
+self_destruct
