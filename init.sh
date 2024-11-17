@@ -162,6 +162,7 @@ set_system_preferences() {
     defaults write com.apple.dock "orientation" -string "left"
     defaults write com.apple.dock "mru-spaces" -bool "false"
     defaults write com.apple.dock "showhidden" -bool "false"
+    defaults write com.apple.dock "minimize-to-application" -bool "true"
 
     # Clear persistent apps first
     defaults write com.apple.dock persistent-apps -array
