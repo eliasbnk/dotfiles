@@ -16,7 +16,7 @@ fi
 
 if [ -w "$SETTINGS_FILE" ]; then
 
-    cat <<EOF >$SETTINGS_FILE
+    cat <<EOF >"$SETTINGS_FILE"
 {
     "workbench.colorTheme": "Monokai",
     "telemetry.telemetryLevel": "off",
