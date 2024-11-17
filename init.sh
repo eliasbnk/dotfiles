@@ -43,7 +43,6 @@ if [ -f $HOME/.zshrc ]; then
     cp $HOME/.zshrc $HOME/.zshrc_backup_$(date +'%Y%m%d%H%M%S')
 fi
 mv $HOME/.config/zshrc $HOME/.zshrc
-source  $HOME/.zshrc
 }
 
 setup_ssh_git(){
