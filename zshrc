@@ -1,5 +1,5 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
-export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 export HOMEBREW_CASK_OPTS="--no-quarantine"
 
 
@@ -69,8 +69,6 @@ alias gru="git remote update"
 alias logisim="java -jar ~/Developer/tools/logisim310.jar"
 alias cd="z"
 alias speedtest="speedtest-cli --secure"
-alias build-flake="nix run nix-darwin --extra-experimental-features nix-command,flakes --switch --flake ~/.config/nix#${flake_device}"
-alias rebuild-flake="darwin-rebuild switch --flake ~/.config/nix#${flake_device}"
 alias path="echo -e ${PATH//:/\n}"
 alias sp="open -a Spotify"
 alias sl="open -a Slack"
