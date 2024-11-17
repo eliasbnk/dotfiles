@@ -181,6 +181,10 @@ set_system_preferences() {
     killall Dock
 }
 
+install_nodejs(){
+nvm install node
+nvm use node
+}
 
 self_destruct(){
     rm $HOME/.config/README.md $HOME/.config/LICENSE $HOME/.config/setup_ssh_git.sh $HOME/.config/setup_vscode.sh $HOME/.config/dock_apps.txt $HOME/.config/casks.txt $HOME/.config/formulaes.txt $HOME/.config/init.sh
@@ -195,5 +199,6 @@ apply_gitignore
 suppress_login_message
 set_system_preferences
 setup_vscode
+install_nodejs
 setup_ssh_git
 self_destruct
