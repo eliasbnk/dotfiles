@@ -1,6 +1,6 @@
 builf_darwin_flake() {
   echo "Running Nix-Darwin to apply system configuration..."
-  nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake ~/.config/nix#macbook-pro
+  nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake ~/.config/nix-darwin#macbook-pro
 }
 
 apply_zshrc(){
