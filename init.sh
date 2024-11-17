@@ -2,14 +2,26 @@
 
 
 install_rosetta() {
-  echo "Installing Rosetta 2..."
+  read -p "\nEnter your full name used for GitHub: " fullname
+  read -p "\nEnter the email address associated with your GitHub: " email
+
+# Loop until a valid branch name is entered (either "main" or "master")
+  while true; do
+      read -p "\nEnter your preferred default branch (main/master): " branch
+      if [[ "$branch" == "main" || "$branch" == "master" ]]; then
+	  break  # Exit loop if input is valid
+      else
+	  echo "Invalid input. Please enter 'main' or 'master'."
+      fi
+  done
+
   read -s -p "\nPassword:" password
+  export EMAIL="$email"
   export PASSWORD="$password"
   echo "$PASSWORD" | sudo -S softwareupdate --install-rosetta --agree-to-license
 }
 
 install_homebrew() {
-  echo "Checking for Homebrew..."
   if ! command -v brew &>/dev/null; then
     echo "Homebrew is not installed. Installing Homebrew..."
 
@@ -27,9 +39,8 @@ install_brew_packages() {
 }
 
 apply_zshrc(){
-if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zprofile; then
-      echo "Updating ~/.zprofile to include Homebrew shell environment."
-      cat <<EOF >>~/.zprofile
+if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' $HOME.zprofile; then
+      cat <<EOF >>$HOME.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 export HOMEBREW_CASK_OPTS="--no-quarantine"
@@ -38,37 +49,21 @@ export NVM_DIR="\$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 EOF
 fi
-source ~/.zprofile
+source $HOME.zprofile
 
-if [ -f ~/.zshrc ]; then
-    cp ~/.zshrc ~/.zshrc_backup_$(date +'%Y%m%d%H%M%S')
+if [ -f $HOME.zshrc ]; then
+    cp $HOME.zshrc $HOME.zshrc_backup_$(date +'%Y%m%d%H%M%S')
 fi
-mv ~/.config/zshrc ~/.zshrc
-source  ~/.zshrc
+mv $HOME.config/zshrc $HOME.zshrc
+source  $HOME.zshrc
 }
 
 setup_ssh_git(){
-if [ -f ~/.gitconfig ]; then
-    cp ~/.gitconfig ~/.gitconfig_$(date +'%Y%m%d%H%M%S')
+if [ -f $HOME.gitconfig ]; then
+    cp $HOME.gitconfig $HOME.gitconfig_$(date +'%Y%m%d%H%M%S')
 fi
-read -p "\nEnter your full name used for GitHub: " fullname
-read -p "\nEnter the email address associated with your GitHub: " email
 
-# Loop until a valid branch name is entered (either "main" or "master")
-while true; do
-    read -p "\nEnter your preferred default branch (main/master): " branch
-    if [[ "$branch" == "main" || "$branch" == "master" ]]; then
-        break  # Exit loop if input is valid
-    else
-        echo "Invalid input. Please enter 'main' or 'master'."
-    fi
-done
-
-
-export EMAIL="$email"
-
-
-cat <<EOF >~/.gitconfig
+cat <<EOF >$HOME.gitconfig
 [user]
 	name = ${fullname}
 	email = ${email}
@@ -87,17 +82,17 @@ cat <<EOF >~/.gitconfig
 	ui = true
 
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = $HOME.gitignore_global
 EOF
-chmod +x ~/.config/setup_ssh_git.sh
-~/.config/setup_ssh_git.sh
+chmod +x $HOME.config/setup_ssh_git.sh
+$HOME.config/setup_ssh_git.sh
 unset EMAIL
 unset PASSWORD
 }
 
 setup_vscode(){
-  chmod +x ~/.config/setup_vscode.sh
-  ~/.config/setup_vscode.sh
+  chmod +x $HOME.config/setup_vscode.sh
+  $HOME.config/setup_vscode.sh
 }
 
 apply_gitignore(){
@@ -210,6 +205,6 @@ apply_zshrc
 apply_gitignore
 suppress_login_message
 set_system_preferences
-setup_ssh_git
 setup_vscode
+setup_ssh_git
 self_destruct
