@@ -1,8 +1,3 @@
-builf_darwin_flake() {
-  echo "Running Nix-Darwin to apply system configuration..."
-  nix run nix-darwin --extra-experimental-features "nix-command flakes" -- switch --flake ~/.config/nix-darwin#macbook-pro
-}
-
 apply_zshrc(){
 if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zprofile; then
       echo "Updating ~/.zprofile to include Homebrew shell environment."
@@ -42,10 +37,8 @@ while true; do
 done
 
 
-read -s -p "\nPassword:" password
-
 export EMAIL="$email"
-export PASSWORD="$password"
+
 
 cat <<EOF >~/.gitconfig
 [user]
@@ -85,7 +78,6 @@ self_destruct(){
 }
 
 
-builf_darwin_flake
 apply_zshrc
 setup_ssh_git
 setup_vscode
