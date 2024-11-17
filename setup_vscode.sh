@@ -3,8 +3,6 @@
 SETTINGS_FILE="$HOME/Library/Application Support/Code/User/settings.json"
 
 open -a "Visual Studio Code"
-echo 'export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"' >>~/.zprofile
-source ~/.zprofile
 
 
 SETTINGS_DIR="$(dirname "$SETTINGS_FILE")"
