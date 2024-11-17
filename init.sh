@@ -16,6 +16,7 @@ install_rosetta() {
   done
 
   read -s -p "Password:" password
+  echo ""
   export EMAIL="$email"
   export PASSWORD="$password"
   echo "$PASSWORD" | sudo -S softwareupdate --install-rosetta --agree-to-license
