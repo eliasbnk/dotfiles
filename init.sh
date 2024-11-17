@@ -2,12 +2,12 @@
 
 
 install_rosetta() {
-  read -p "\nEnter your full name used for GitHub: " fullname
-  read -p "\nEnter the email address associated with your GitHub: " email
+  read -p "Enter your full name used for GitHub: " fullname
+  read -p "Enter the email address associated with your GitHub: " email
 
 # Loop until a valid branch name is entered (either "main" or "master")
   while true; do
-      read -p "\nEnter your preferred default branch (main/master): " branch
+      read -p "Enter your preferred default branch (main/master): " branch
       if [[ "$branch" == "main" || "$branch" == "master" ]]; then
 	  break  # Exit loop if input is valid
       else
@@ -15,7 +15,7 @@ install_rosetta() {
       fi
   done
 
-  read -s -p "\nPassword:" password
+  read -s -p "Password:" password
   export EMAIL="$email"
   export PASSWORD="$password"
   echo "$PASSWORD" | sudo -S softwareupdate --install-rosetta --agree-to-license
@@ -33,14 +33,13 @@ install_homebrew() {
 }
 
 install_brew_packages() {
-  xargs brew install --no-quarantine < $HOME.config/formulaes.txt
-  brew tap homebrew/cask-fonts
-  xargs brew install --no-quarantine --cask <  $HOME.config/casks.txt
+  xargs brew install --no-quarantine < $HOME/.config/formulaes.txt
+  xargs brew install --no-quarantine --cask <  $HOME/.config/casks.txt
 }
 
 apply_zshrc(){
-if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' $HOME.zprofile; then
-      cat <<EOF >>$HOME.zprofile
+if ! grep -q 'eval "$(/opt/homebrew/bin/brew shellenv)"' $HOME/.zprofile; then
+      cat <<EOF >>$HOME/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 export HOMEBREW_CASK_OPTS="--no-quarantine"
@@ -49,21 +48,21 @@ export NVM_DIR="\$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 EOF
 fi
-source $HOME.zprofile
+source $HOME/.zprofile
 
-if [ -f $HOME.zshrc ]; then
-    cp $HOME.zshrc $HOME.zshrc_backup_$(date +'%Y%m%d%H%M%S')
+if [ -f $HOME/.zshrc ]; then
+    cp $HOME/.zshrc $HOME/.zshrc_backup_$(date +'%Y%m%d%H%M%S')
 fi
-mv $HOME.config/zshrc $HOME.zshrc
-source  $HOME.zshrc
+mv $HOME/.config/zshrc $HOME/.zshrc
+source  $HOME/.zshrc
 }
 
 setup_ssh_git(){
-if [ -f $HOME.gitconfig ]; then
-    cp $HOME.gitconfig $HOME.gitconfig_$(date +'%Y%m%d%H%M%S')
+if [ -f $HOME/.gitconfig ]; then
+    cp $HOME/.gitconfig $HOME/.gitconfig_$(date +'%Y%m%d%H%M%S')
 fi
 
-cat <<EOF >$HOME.gitconfig
+cat <<EOF >$HOME/.gitconfig
 [user]
 	name = ${fullname}
 	email = ${email}
@@ -82,29 +81,29 @@ cat <<EOF >$HOME.gitconfig
 	ui = true
 
 [core]
-	excludesfile = $HOME.gitignore_global
+	excludesfile = $HOME/.gitignore_global
 EOF
-chmod +x $HOME.config/setup_ssh_git.sh
-$HOME.config/setup_ssh_git.sh
+chmod +x $HOME/.config/setup_ssh_git.sh
+$HOME/.config/setup_ssh_git.sh
 unset EMAIL
 unset PASSWORD
 }
 
 setup_vscode(){
-  chmod +x $HOME.config/setup_vscode.sh
-  $HOME.config/setup_vscode.sh
+  chmod +x $HOME/.config/setup_vscode.sh
+  $HOME/.config/setup_vscode.sh
 }
 
 apply_gitignore(){
-if [ -f $HOME.gitignore_global ]; then
-    cp $HOME.gitignore_global $HOME.gitignore_global_$(date +'%Y%m%d%H%M%S')
+if [ -f $HOME/.gitignore_global ]; then
+    cp $HOME/.gitignore_global $HOME/.gitignore_global_$(date +'%Y%m%d%H%M%S')
 fi
-mv $HOME.config/gitignore_global $HOME.gitignore_global
+mv $HOME/.config/gitignore_global $HOME/.gitignore_global
 }
 
 suppress_login_message(){
-if [ ! -f $HOME.hushlogin ]; then
-    touch $HOME.hushlogin
+if [ ! -f $HOME/.hushlogin ]; then
+    touch $HOME/.hushlogin
 fi
 }
 
@@ -194,7 +193,7 @@ set_system_preferences() {
 
 
 self_destruct(){
-    rm $HOME.config/README.md $HOME.config/LICENSE $HOME.config/setup_ssh_git.sh $HOME.config/setup_vscode.sh $HOME.config/dock_apps.txt $HOME.config/casks.txt $HOME.config/formulaes.txt $HOME.config/init.sh
+    rm $HOME/.config/README.md $HOME/.config/LICENSE $HOME/.config/setup_ssh_git.sh $HOME/.config/setup_vscode.sh $HOME/.config/dock_apps.txt $HOME/.config/casks.txt $HOME/.config/formulaes.txt $HOME/.config/init.sh
     exit 0
 }
 
