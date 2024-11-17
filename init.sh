@@ -45,7 +45,7 @@ fi
 
 self_destruct(){
     chmod +x ~/.config/build.sh
-    rm ~/.config/init.sh
+    rm ~/.config/init.sh ~/.config/README.md ~/.config/LICENSE
     exit 0
 }
 
