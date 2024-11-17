@@ -1,4 +1,3 @@
-          # TODO: Add the macOS applications (Casks) you want to install
 librewolf
 viber
 1password
