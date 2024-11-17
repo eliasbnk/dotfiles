@@ -43,6 +43,7 @@ if [ -f $HOME/.zshrc ]; then
     cp $HOME/.zshrc $HOME/.zshrc_backup_$(date +'%Y%m%d%H%M%S')
 fi
 mv $HOME/.config/zshrc $HOME/.zshrc
+source  $HOME/.zshrc
 }
 
 setup_ssh_git(){
@@ -192,7 +193,6 @@ apply_zshrc
 apply_gitignore
 suppress_login_message
 set_system_preferences
-source  $HOME/.zshrc
 setup_vscode
 setup_ssh_git
 self_destruct
