@@ -1,17 +1,17 @@
-# source /opt/homebrew/opt/spaceship/spaceship.zsh
-# source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-# source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+ source /opt/homebrew/opt/spaceship/spaceship.zsh
+ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
-# ZSH_THEME="spaceship"
-# plugins=(zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete)
+ ZSH_THEME="spaceship"
+ plugins=(zsh-autosuggestions zsh-syntax-highlighting zsh-autocomplete)
 
-# eval "$(zoxide init zsh)"
-# eval "$(fzf --zsh)"
+ eval "$(zoxide init zsh)"
+ eval "$(fzf --zsh)"
 
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-# [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+ export NVM_DIR="$HOME/.nvm"
+ [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+ [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # Key bindings
 bindkey "^[b" backward-word
