@@ -20,8 +20,6 @@ collect_git_info() {
 }
 
 install_rosetta() {
-  collect_git_info
-
   echo "$PASSWORD" | sudo -S softwareupdate --install-rosetta --agree-to-license
 }
 
@@ -186,7 +184,7 @@ self_destruct() {
   exit 0
 }
 
-
+collect_git_info
 install_rosetta
 install_homebrew
 install_brew_packages
