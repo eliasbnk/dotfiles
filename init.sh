@@ -1,8 +1,11 @@
 #!/bin/bash
 
+
 install_rosetta() {
   echo "Installing Rosetta 2..."
-  sudo softwareupdate --install-rosetta --agree-to-license
+  read -s -p "\nPassword:" password
+  export PASSWORD="$password"
+  echo "$PASSWORD" | sudo -S softwareupdate --install-rosetta --agree-to-license
 }
 
 install_homebrew() {
@@ -17,17 +20,10 @@ install_homebrew() {
   fi
 }
 
-install_nix() {
-  echo "Installing Nix package manager..."
-  if ! command -v nix &>/dev/null; then
-    curl -L https://nixos.org/nix/install | sh
-  else
-    echo "Nix is already installed."
-  fi
-}
-
-clone_dotfiles(){
-    mkdir -p ~/.config && curl -L https://github.com/eliasbnk/dotfiles/archive/refs/heads/main.zip | bsdtar -xvf- -C ~/.config --strip-components=1
+install_brew_packages() {
+  xargs brew install --no-quarantine < ~/.config/formulaes.txt
+  brew tap homebrew/cask-fonts
+  xargs brew install --no-quarantine --cask <  ~/.config/casks.txt
 }
 
 apply_gitignore(){
@@ -51,7 +47,7 @@ self_destruct(){
 
 install_rosetta
 install_homebrew
-clone_dotfiles
+install_brew_packages
 apply_zshrc
 apply_gitignore
 suppress_login_message
