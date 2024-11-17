@@ -28,7 +28,6 @@ keepingyouawake
 nikitabobko/tap/aerospace
 postman
 slack
-zoom
 discord
 obsidian
 spotify
