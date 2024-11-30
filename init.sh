@@ -20,6 +20,7 @@ collect_git_info() {
 }
 
 install_rosetta() {
+  echo "$PASSWORD" | sudo -S cp $HOME/.config/sudo_local /etc/pam.d/
   echo "$PASSWORD" | sudo -S softwareupdate --install-rosetta --agree-to-license
 }
 
@@ -60,69 +61,84 @@ suppress_login_message() {
 }
 
 set_system_preferences() {
-  defaults write NSGlobalDomain KeyRepeat -int 2
-  defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
-  defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
-  defaults write NSGlobalDomain NSAutomaticInlinePredictionEnabled -bool false
-  defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
-  defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
-  defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
-  defaults write NSGlobalDomain AppleShowAllFiles -bool true
-  defaults write NSGlobalDomain AppleScrollerPagingBehavior -bool true
-  defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
-  defaults write NSGlobalDomain AppleICUForce24HourTime -bool true
+  # Set global preferences
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticInlinePredictionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+defaults write NSGlobalDomain AppleShowScrollBars -string "Always"
+defaults write NSGlobalDomain AppleShowAllFiles -bool true
+defaults write NSGlobalDomain AppleScrollerPagingBehavior -bool true
+defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
+defaults write NSGlobalDomain AppleICUForce24HourTime -bool true
 
-  defaults write com.apple.menuextra.clock ShowSeconds -bool true
-  defaults write com.apple.menuextra.clock ShowDayOfWeek -bool true
-  defaults write com.apple.menuextra.clock ShowDate -int 1
-  defaults write com.apple.menuextra.clock ShowAMPM -bool false
-  defaults write com.apple.menuextra.clock Show24Hour -bool true
+# Configure menu bar clock
+defaults write com.apple.menuextra.clock ShowSeconds -bool true
+defaults write com.apple.menuextra.clock ShowDayOfWeek -bool true
+defaults write com.apple.menuextra.clock ShowDate -int 1
 
-  defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
-  defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
-  defaults write com.apple.finder ShowPathbar -bool true
-  defaults write com.apple.finder ShowStatusBar -bool true
+# Set Finder preferences
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
 
-  defaults write com.apple.screencapture type -string "jpg"
-  defaults write com.apple.screencapture location -string "$HOME/Screenshots"
-  defaults write com.apple.screencapture disable-shadow -bool true
-  defaults write com.apple.screencapture include-date -bool false
+# Configure screenshot settings
+defaults write com.apple.screencapture type -string "jpg"
+defaults write com.apple.screencapture location -string "$HOME/Screenshots"
+defaults write com.apple.screencapture disable-shadow -bool true
+defaults write com.apple.screencapture include-date -bool false
 
-  defaults write com.apple.screensaver askForPasswordDelay -int 1
-  defaults write com.apple.screensaver askForPassword -bool true
+# Set screensaver and security preferences
+defaults write com.apple.screensaver askForPasswordDelay -int 1
+defaults write com.apple.screensaver askForPassword -bool true
 
-  defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+# Disable click to show desktop
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
 
-  sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false
+# Disable guest account
+sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false
 
-  defaults write com.apple.HIToolbox AppleFnUsageType -string "Show Emoji & Symbols"
+# Set Fn key behavior
+defaults write com.apple.HIToolbox AppleFnUsageType -string "Show Emoji & Symbols"
 
-  sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates -bool true
+# Enable automatic macOS updates
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticallyInstallMacOSUpdates -bool true
 
-  sudo defaults write /Library/Preferences/com.apple.security.pam enableSudoTouchIdAuth -bool true
+# Disable startup sound
+sudo nvram SystemAudioVolume=" "
 
-  sudo nvram SystemAudioVolume=" "
+# Configure Dock
+defaults write com.apple.dock "mineffect" -string "scale"
+defaults write com.apple.dock "autohide-delay" -float "0.0"
+defaults write com.apple.dock "autohide-time-modifier" -float "0.0"
+defaults write com.apple.dock "show-recents" -bool "false"
+defaults write com.apple.dock "autohide" -bool "true"
+defaults write com.apple.dock "orientation" -string "left"
+defaults write com.apple.dock "mru-spaces" -bool "false"
+defaults write com.apple.dock "showhidden" -bool "false"
+defaults write com.apple.dock "minimize-to-application" -bool "true"
 
-  defaults write com.apple.dock "mineffect" -string "scale"
-  defaults write com.apple.dock "autohide-delay" -float "0.0"
-  defaults write com.apple.dock "autohide-time-modifier" -float "0.0"
-  defaults write com.apple.dock "show-recents" -bool "false"
-  defaults write com.apple.dock "autohide" -bool "true"
-  defaults write com.apple.dock "orientation" -string "left"
-  defaults write com.apple.dock "mru-spaces" -bool "false"
-  defaults write com.apple.dock "showhidden" -bool "false"
-  defaults write com.apple.dock "minimize-to-application" -bool "true"
+# Clear existing Dock items
+defaults write com.apple.dock persistent-apps -array
 
-  defaults write com.apple.dock persistent-apps -array
+# Add new Dock items from file
+DOCK_APPS_FILE="$HOME/.config/dock_apps.txt"
+if [ -f "$DOCK_APPS_FILE" ]; then
+    while IFS= read -r dockItem || [ -n "$dockItem" ]; do
+        defaults write com.apple.dock persistent-apps -array-add \
+        "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>$dockItem</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"
+    done < "$DOCK_APPS_FILE"
+else
+    echo "Warning: $DOCK_APPS_FILE not found. Skipping Dock items addition."
+fi
 
-  while IFS= read -r dockItem; do
-      defaults write com.apple.dock persistent-apps -array-add \
-      "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>$dockItem</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"
-  done < "$HOME/.config/dock_apps.txt"
-
-  killall Finder
-  killall SystemUIServer
-  killall Dock
+# Restart affected applications
+killall Finder
+killall SystemUIServer
+killall Dock
 }
 
 setup_vscode() {
